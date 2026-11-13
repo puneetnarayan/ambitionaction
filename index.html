@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#12243a">
+<title>Ambition Action Tracker</title>
+<style>
+:root{--ink:#17283d;--muted:#64748b;--line:#dce4ed;--paper:#f4f7fb;--white:#fff;--blue:#2457a7;--green:#16845b}
+*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font:15px/1.5 Inter,Segoe UI,Arial,sans-serif}
+header{background:#12243a;color:white;padding:34px 22px 30px} .wrap{max-width:900px;margin:auto}
+.eyebrow{text-transform:uppercase;letter-spacing:.14em;font-size:11px;font-weight:700;color:#a9c7ef}
+h1{font-size:clamp(27px,5vw,38px);line-height:1.12;margin:8px 0}
+header p{color:#d2deec;max-width:680px;margin:10px 0 0}
+main{max-width:900px;margin:24px auto;padding:0 18px 50px}
+.panel{background:white;border:1px solid var(--line);border-radius:14px;padding:18px 20px;margin-bottom:18px;box-shadow:0 4px 18px #1b36500a}
+.progress-head{display:flex;justify-content:space-between;gap:12px;align-items:center;font-weight:700}
+.count{font-variant-numeric:tabular-nums;color:var(--blue)}
+.track{height:9px;background:#e8edf4;border-radius:99px;overflow:hidden;margin-top:12px}
+.fill{height:100%;width:0;background:var(--green);transition:width .2s}
+.note{font-size:13px;color:var(--muted);margin:10px 0 0}
+.section{margin:24px 0 10px;display:flex;align-items:baseline;justify-content:space-between;gap:12px}
+.section h2{font-size:16px;margin:0}.section span{font-size:12px;color:var(--muted)}
+.task{display:flex;gap:13px;padding:15px 3px;border-bottom:1px solid #edf1f5;align-items:flex-start}
+.task:last-child{border-bottom:0}
+.task input{width:19px;height:19px;accent-color:var(--green);margin:2px 0 0;flex:0 0 auto;cursor:pointer}
+.task label{cursor:pointer;display:block;flex:1}
+.task strong{display:block;font-size:14px;margin-bottom:3px}
+.task p{margin:0;color:var(--muted);font-size:13px}
+.task.done strong{text-decoration:line-through;color:#718096}
+.task.done p{color:#98a3b2}
+.tag{display:inline-block;margin-top:7px;padding:2px 8px;border-radius:20px;background:#edf3fb;color:#355b88;font-size:11px;font-weight:650}
+.actions{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+button{border:1px solid var(--line);background:white;color:var(--ink);padding:8px 12px;border-radius:8px;font-weight:650;cursor:pointer}
+button:hover{border-color:#8ba9ce;background:#f8fbff}
+footer{color:var(--muted);font-size:12px;text-align:center;padding:18px}
+@media(max-width:560px){header{padding:27px 18px}.panel{padding:15px}.task{gap:10px}}
+</style>
+</head>
+<body>
+<header><div class="wrap">
+<div class="eyebrow">Personal performance system</div>
+<h1>Ambition Action Tracker</h1>
+<p>Twenty practical actions to make your contribution visible, strengthen trust with your boss, deliver measurable results and build a credible case for your next grade.</p>
+</div></header>
+<main>
+<div class="panel">
+<div class="progress-head"><span>Your progress</span><span class="count" id="count">0 of 20 completed</span></div>
+<div class="track" role="progressbar" aria-label="Tasks completed" aria-valuemin="0" aria-valuemax="20" aria-valuenow="0" id="progress"><div class="fill" id="fill"></div></div>
+<p class="note">Tick an action when you have actually completed it—not merely planned it. Your progress is saved in this browser.</p>
+</div>
+<div class="panel">
+<div class="actions"><strong>How to use this list</strong><button id="reset" type="button">Reset checkboxes</button></div>
+<p class="note">Work through the actions steadily. Prioritise meaningful outcomes over activity for its own sake. Adapt the frequency to your role and your boss's working style.</p>
+</div>
+<div id="tasks"></div>
+<footer>Ambition Action · A private working checklist · Progress stays in this browser</footer>
+</main>
+<script>
+const groups = [
+{title:"1. Align and communicate",hint:"Make priorities, progress and decisions visible",items:[
+["Agree on the three outcomes that matter most","Ask your boss: “Which two or three results would make this a particularly successful quarter for our team?” Confirm priorities, measures and deadlines."],
+["Send a concise weekly update","Share completed work, measurable impact, next week's priorities and any decision or support needed. Keep it factual and brief."],
+["Close the loop after every important discussion","Send a short note recording the agreed action, owner and date. Update your boss when the action is complete."],
+["Share important progress before being asked","When a milestone is achieved, send a timely update explaining what changed, why it matters and what comes next."],
+["Raise risks early—with options","Flag schedule, cost, safety, quality or operational risks early. Present two practical options and your recommended course of action."]
+]},
+{title:"2. Deliver results that matter",hint:"Demonstrate impact, not just effort",items:[
+["Quantify the impact of your work","For each significant project, capture the before-and-after position: cost, productivity, downtime, energy, quality, safety or delivery performance."],
+["Fix one recurring operational problem","Identify a persistent bottleneck or failure, find the root cause, implement a sustainable fix and verify the improvement with data."],
+["Prepare one business-improvement proposal","Submit a practical proposal with the problem, options, estimated benefit, resources, risks and implementation timeline."],
+["Improve cross-functional coordination","Bring relevant departments together to resolve an issue that affects project execution, plant availability, commissioning or handover."],
+["Create a simple performance dashboard","Maintain a one-page view of key milestones, KPIs, open risks, decisions required and benefits achieved. Keep figures traceable."]
+]},
+{title:"3. Build trust and leadership",hint:"Show ownership, judgement and team impact",items:[
+["Ask for help or a decision with a clear recommendation","Do not just report a problem. Explain what you have checked, what you recommend and exactly what support or decision you need."],
+["Seek specific feedback midway through the cycle","Ask your boss: “What is one thing I should do differently to increase my impact?” Act on the feedback and follow up."],
+["Take ownership of an issue beyond your immediate scope","Choose a meaningful problem that affects the wider team. Agree the boundaries with your boss, then drive it to closure."],
+["Coach or mentor a colleague","Help a team member become independently capable in a technical, project-management or problem-solving area. Record the capability gained."],
+["Recognise the contributions of others","Give credit to the people and teams who helped deliver a result. Build a reputation for collaborative leadership, not self-promotion."]
+]},
+{title:"4. Make your contribution unmistakable",hint:"Create evidence and prepare for the next level",items:[
+["Present a short options paper for a significant decision","Give your boss a clear comparison of alternatives, trade-offs, risks, cost and your recommendation—not a long problem description."],
+["Document two or three achievement case studies","For each, record the challenge, your specific role, actions, measurable result and organisational benefit. Keep evidence available."],
+["Request a conversation about next-grade expectations","Ask what responsibilities, behaviours and results demonstrate readiness for the next grade. Agree on any gaps to close."],
+["Build a stakeholder feedback record","Request brief feedback from project, operations, maintenance or other internal stakeholders after meaningful deliveries. Capture specific outcomes."],
+["Prepare an appraisal evidence summary","Before appraisal, compile delivered targets, quantified benefits, leadership examples, feedback, additional responsibilities and next-level contributions. Share it with your boss in advance."]
+]}
+];
+const storageKey = "ambitionaction-v1";
+let completed = {};
+try { completed = JSON.parse(localStorage.getItem(storageKey) || "{}") || {}; } catch(e) { completed = {}; }
+const root = document.getElementById("tasks");
+let index = 0;
+groups.forEach((group, gi) => {
+ const section = document.createElement("section");
+ const heading = document.createElement("div"); heading.className = "section";
+ heading.innerHTML = "<h2></h2><span></span>";
+ heading.querySelector("h2").textContent = group.title;
+ heading.querySelector("span").textContent = group.hint;
+ section.appendChild(heading);
+ const panel = document.createElement("div"); panel.className = "panel";
+ group.items.forEach((item) => {
+  const id = "task-" + index;
+  const row = document.createElement("div"); row.className = "task";
+  const cb = document.createElement("input"); cb.type = "checkbox"; cb.id = id; cb.checked = !!completed[id];
+  const label = document.createElement("label"); label.htmlFor = id;
+  const title = document.createElement("strong"); title.textContent = (index+1) + ". " + item[0];
+  const desc = document.createElement("p"); desc.textContent = item[1];
+  label.append(title, desc);
+  cb.addEventListener("change", () => { completed[id] = cb.checked; localStorage.setItem(storageKey, JSON.stringify(completed)); row.classList.toggle("done", cb.checked); update(); });
+  row.append(cb,label); if(cb.checked) row.classList.add("done");
+  panel.appendChild(row); index++;
+ });
+ section.appendChild(panel); root.appendChild(section);
+});
+function update(){
+ const total = 20, done = Object.values(completed).filter(Boolean).length;
+ document.getElementById("count").textContent = done + " of " + total + " completed";
+ document.getElementById("fill").style.width = (done/total*100) + "%";
+ const p = document.getElementById("progress"); p.setAttribute("aria-valuenow",done);
+}
+document.getElementById("reset").addEventListener("click",()=>{
+ if(!confirm("Clear all 20 checkboxes?")) return;
+ completed = {}; localStorage.removeItem(storageKey);
+ document.querySelectorAll(".task input").forEach(cb=>{cb.checked=false;cb.closest(".task").classList.remove("done")});
+ update();
+});
+update();
+</script>
+</body></html>
