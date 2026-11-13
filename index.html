@@ -1,131 +1,147 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#12243a">
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#eef3f8">
 <title>Ambition Action Tracker</title>
 <style>
-:root{--ink:#17283d;--muted:#64748b;--line:#dce4ed;--paper:#f4f7fb;--white:#fff;--blue:#2457a7;--green:#16845b}
-*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font:15px/1.5 Inter,Segoe UI,Arial,sans-serif}
-header{background:#12243a;color:white;padding:34px 22px 30px} .wrap{max-width:900px;margin:auto}
-.eyebrow{text-transform:uppercase;letter-spacing:.14em;font-size:11px;font-weight:700;color:#a9c7ef}
-h1{font-size:clamp(27px,5vw,38px);line-height:1.12;margin:8px 0}
-header p{color:#d2deec;max-width:680px;margin:10px 0 0}
-main{max-width:900px;margin:24px auto;padding:0 18px 50px}
-.panel{background:white;border:1px solid var(--line);border-radius:14px;padding:18px 20px;margin-bottom:18px;box-shadow:0 4px 18px #1b36500a}
-.progress-head{display:flex;justify-content:space-between;gap:12px;align-items:center;font-weight:700}
-.count{font-variant-numeric:tabular-nums;color:var(--blue)}
-.track{height:9px;background:#e8edf4;border-radius:99px;overflow:hidden;margin-top:12px}
-.fill{height:100%;width:0;background:var(--green);transition:width .2s}
-.note{font-size:13px;color:var(--muted);margin:10px 0 0}
-.section{margin:24px 0 10px;display:flex;align-items:baseline;justify-content:space-between;gap:12px}
-.section h2{font-size:16px;margin:0}.section span{font-size:12px;color:var(--muted)}
-.task{display:flex;gap:13px;padding:15px 3px;border-bottom:1px solid #edf1f5;align-items:flex-start}
-.task:last-child{border-bottom:0}
-.task input{width:19px;height:19px;accent-color:var(--green);margin:2px 0 0;flex:0 0 auto;cursor:pointer}
-.task label{cursor:pointer;display:block;flex:1}
-.task strong{display:block;font-size:14px;margin-bottom:3px}
-.task p{margin:0;color:var(--muted);font-size:13px}
-.task.done strong{text-decoration:line-through;color:#718096}
-.task.done p{color:#98a3b2}
-.tag{display:inline-block;margin-top:7px;padding:2px 8px;border-radius:20px;background:#edf3fb;color:#355b88;font-size:11px;font-weight:650}
-.actions{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
-button{border:1px solid var(--line);background:white;color:var(--ink);padding:8px 12px;border-radius:8px;font-weight:650;cursor:pointer}
-button:hover{border-color:#8ba9ce;background:#f8fbff}
-footer{color:var(--muted);font-size:12px;text-align:center;padding:18px}
-@media(max-width:560px){header{padding:27px 18px}.panel{padding:15px}.task{gap:10px}}
+:root{--ink:#24364b;--muted:#718096;--line:#dce5ee;--page:#f3f6fa;--white:#fff;--navy:#314b68;--blue:#dceafa;--blue-ink:#355c85;--mint:#dff1e9;--mint-ink:#287455;--lav:#eee8f8;--peach:#faeee3;--yellow:#f8f1d9}
+*{box-sizing:border-box}body{margin:0;background:var(--page);color:var(--ink);font:14px/1.45 Inter,"Segoe UI",Arial,sans-serif}
+header{background:#e6eef7;border-bottom:1px solid #d5e0eb;padding:18px 24px}
+.head{max-width:1200px;margin:auto}.eyebrow{font-size:10px;letter-spacing:.15em;text-transform:uppercase;font-weight:750;color:#64809d}
+h1{font-size:27px;line-height:1.15;margin:4px 0;color:#263e57}header p{margin:5px 0 0;color:#647990;font-size:13px}
+.app{max-width:1200px;margin:16px auto;padding:0 16px 28px;display:grid;grid-template-columns:320px minmax(0,1fr);gap:14px;align-items:start}
+.sidebar{background:#fff;border:1px solid var(--line);border-radius:12px;overflow:hidden;position:sticky;top:12px;max-height:calc(100vh - 24px);display:flex;flex-direction:column;transition:width .18s}
+.side-top{display:flex;align-items:center;gap:7px;padding:10px;border-bottom:1px solid #edf1f5;min-height:48px}
+.side-title{font-weight:750;flex:1;font-size:13px;white-space:nowrap}
+.iconbtn,.softbtn{border:1px solid #d9e3ed;background:#f2f6fb;color:#45627f;border-radius:8px;padding:6px 9px;font-weight:650;cursor:pointer;font-size:12px}
+.iconbtn:hover,.softbtn:hover{background:#e7eff8}
+.side-list{overflow:auto;padding:5px 9px 12px}
+.group{border-bottom:1px solid #edf1f5;padding:5px 0}
+.group summary{cursor:pointer;list-style:none;font-size:12px;font-weight:750;color:#536b84;padding:7px 5px;display:flex;justify-content:space-between;gap:8px}
+.group summary::-webkit-details-marker{display:none}.group summary:after{content:"⌄";color:#91a3b5}
+.group[open] summary:after{content:"⌃"}
+.group-count{font-size:10px;color:#8a9bad;font-weight:600}
+.side-task{display:flex;gap:8px;padding:6px 5px;border-radius:7px;align-items:flex-start}
+.side-task:hover{background:#f5f8fb}.side-task.selected{background:#edf4fb}
+.side-task input{accent-color:#6c9b87;width:15px;height:15px;margin:2px 0 0;flex:none;cursor:pointer}
+.task-link{border:0;background:transparent;padding:0;text-align:left;cursor:pointer;min-width:0;flex:1;color:var(--ink);font-size:12px;line-height:1.35}
+.task-link:hover{color:#38658f}.side-task.done .task-link{text-decoration:line-through;color:#94a1af}
+main{min-width:0}.card{background:#fff;border:1px solid var(--line);border-radius:12px;padding:15px 17px;margin-bottom:12px;box-shadow:0 3px 12px #29425b08}
+.progress-head{display:flex;justify-content:space-between;gap:10px;align-items:center;font-weight:750;font-size:13px}
+.count{color:#456f9c;font-variant-numeric:tabular-nums}
+.track{height:8px;background:#edf1f5;border-radius:99px;overflow:hidden;margin-top:10px}.fill{height:100%;width:0;background:#8fc5aa;transition:width .2s}
+.smallnote{font-size:12px;color:var(--muted);margin:8px 0 0}
+.summary-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.pill{background:#edf4fb;color:#587695;padding:5px 9px;border-radius:7px;font-size:11px;font-weight:650}
+.pill.mint{background:#e6f3ed;color:#4c8068}.pill.lav{background:#f0ebf8;color:#75618f}.pill.peach{background:#fbf0e7;color:#987253}
+.content-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:7px}
+.content-head h2{font-size:16px;margin:0}
+.detail-kicker{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:#8294a7;font-weight:750}
+.detail-title{font-size:19px;line-height:1.3;margin:5px 0 9px}
+.detail-desc{font-size:13px;color:#62758a;margin:0;max-width:720px}
+.tip{background:#f3f7fb;border:1px solid #e3ebf3;border-radius:9px;padding:11px 13px;margin-top:14px;font-size:12px;color:#5e748a}
+.actions{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+button{font-family:inherit}.reset{background:#f8eded;border:1px solid #f0dada;color:#946767;border-radius:8px;padding:7px 10px;font-size:11px;font-weight:700;cursor:pointer}
+.reset:hover{background:#f5e4e4}
+.footer{font-size:11px;color:#98a5b3;text-align:center;padding:8px}
+.collapsed{grid-template-columns:56px minmax(0,1fr)}
+.collapsed .sidebar{width:56px}.collapsed .side-title,.collapsed .side-list{display:none}.collapsed .side-top{justify-content:center;padding:8px 5px}.collapsed #pinBtn{display:none}
+@media(max-width:700px){
+ header{padding:15px 16px}.app{display:block;margin:10px auto;padding:0 10px}
+ .sidebar{position:fixed;z-index:5;left:10px;top:10px;bottom:10px;width:min(340px,calc(100vw - 20px));max-height:none;box-shadow:0 12px 40px #1e34452b;transform:translateX(calc(-100% - 15px));transition:transform .2s}
+ .mobile-open .sidebar{transform:translateX(0)}
+ .mobile-open:after{content:"";position:fixed;inset:0;background:#1d304455;z-index:4}
+ .side-list{display:block}.side-title{display:block}.side-top{justify-content:flex-start}
+ .collapsed .sidebar{width:min(340px,calc(100vw - 20px))}.collapsed .side-title,.collapsed .side-list{display:block}.collapsed #pinBtn{display:inline-block}
+ .collapsed .side-top{justify-content:flex-start;padding:10px}
+ .mobilebar{display:flex!important;margin-bottom:10px}
+ .detail-title{font-size:17px}
+}
+.mobilebar{display:none;justify-content:flex-start}
 </style>
 </head>
 <body>
-<header><div class="wrap">
-<div class="eyebrow">Personal performance system</div>
-<h1>Ambition Action Tracker</h1>
-<p>Twenty practical actions to make your contribution visible, strengthen trust with your boss, deliver measurable results and build a credible case for your next grade.</p>
-</div></header>
+<header><div class="head"><div class="eyebrow">Personal performance system</div><h1>Ambition Action Tracker</h1><p>Make meaningful results visible, build trust and prepare a strong case for your next grade.</p></div></header>
+<div class="app" id="app">
+<aside class="sidebar" aria-label="Action checklist">
+ <div class="side-top"><button class="iconbtn" id="collapseBtn" title="Collapse or expand sidebar" aria-label="Collapse sidebar">☰</button><span class="side-title">Your 20 actions</span><button class="iconbtn" id="pinBtn" title="Pin sidebar open" aria-pressed="true">📌</button></div>
+ <div class="side-list" id="taskNav"></div>
+</aside>
 <main>
-<div class="panel">
-<div class="progress-head"><span>Your progress</span><span class="count" id="count">0 of 20 completed</span></div>
-<div class="track" role="progressbar" aria-label="Tasks completed" aria-valuemin="0" aria-valuemax="20" aria-valuenow="0" id="progress"><div class="fill" id="fill"></div></div>
-<p class="note">Tick an action when you have actually completed it—not merely planned it. Your progress is saved in this browser.</p>
-</div>
-<div class="panel">
-<div class="actions"><strong>How to use this list</strong><button id="reset" type="button">Reset checkboxes</button></div>
-<p class="note">Work through the actions steadily. Prioritise meaningful outcomes over activity for its own sake. Adapt the frequency to your role and your boss's working style.</p>
-</div>
-<div id="tasks"></div>
-<footer>Ambition Action · A private working checklist · Progress stays in this browser</footer>
+ <div class="mobilebar"><button class="softbtn" id="mobileOpen">☰ Show action list</button></div>
+ <section class="card">
+  <div class="progress-head"><span>Your progress</span><span class="count" id="count">0 of 20 completed</span></div>
+  <div class="track" id="progress" role="progressbar" aria-label="Tasks completed" aria-valuemin="0" aria-valuemax="20" aria-valuenow="0"><div class="fill" id="fill"></div></div>
+  <div class="summary-row"><span class="pill">5 Align & communicate</span><span class="pill mint">5 Deliver results</span><span class="pill lav">5 Build leadership</span><span class="pill peach">5 Promotion evidence</span></div>
+  <p class="smallnote">Tick an action only when it is genuinely completed. Progress is saved in this browser.</p>
+ </section>
+ <section class="card">
+  <div class="actions"><strong style="font-size:13px">How to use this tracker</strong><button class="reset" id="reset" type="button">Reset checkboxes</button></div>
+  <p class="smallnote">Choose an activity from the sidebar to see its practical guidance. Work steadily; meaningful outcomes matter more than activity for its own sake.</p>
+ </section>
+ <section class="card" id="detail" aria-live="polite">
+  <div class="detail-kicker" id="detailKicker">Selected action · 1 of 20</div>
+  <h2 class="detail-title" id="detailTitle">Agree on the three outcomes that matter most</h2>
+  <p class="detail-desc" id="detailDesc">Ask your boss which results would make this a particularly successful quarter. Confirm priorities, measures and deadlines.</p>
+  <div class="tip"><strong>Make it count:</strong> Keep a short record of the outcome, your contribution, the measurable result and who benefited. Use this evidence in your weekly updates and appraisal summary.</div>
+ </section>
+ <div class="footer">Ambition Action · Private working checklist · Browser-saved progress</div>
 </main>
+</div>
 <script>
-const groups = [
-{title:"1. Align and communicate",hint:"Make priorities, progress and decisions visible",items:[
+const groups=[
+{title:"1. Align and communicate",items:[
 ["Agree on the three outcomes that matter most","Ask your boss: “Which two or three results would make this a particularly successful quarter for our team?” Confirm priorities, measures and deadlines."],
 ["Send a concise weekly update","Share completed work, measurable impact, next week's priorities and any decision or support needed. Keep it factual and brief."],
 ["Close the loop after every important discussion","Send a short note recording the agreed action, owner and date. Update your boss when the action is complete."],
 ["Share important progress before being asked","When a milestone is achieved, send a timely update explaining what changed, why it matters and what comes next."],
-["Raise risks early—with options","Flag schedule, cost, safety, quality or operational risks early. Present two practical options and your recommended course of action."]
-]},
-{title:"2. Deliver results that matter",hint:"Demonstrate impact, not just effort",items:[
+["Raise risks early—with options","Flag schedule, cost, safety, quality or operational risks early. Present two practical options and your recommended course of action."]]},
+{title:"2. Deliver results that matter",items:[
 ["Quantify the impact of your work","For each significant project, capture the before-and-after position: cost, productivity, downtime, energy, quality, safety or delivery performance."],
 ["Fix one recurring operational problem","Identify a persistent bottleneck or failure, find the root cause, implement a sustainable fix and verify the improvement with data."],
 ["Prepare one business-improvement proposal","Submit a practical proposal with the problem, options, estimated benefit, resources, risks and implementation timeline."],
 ["Improve cross-functional coordination","Bring relevant departments together to resolve an issue that affects project execution, plant availability, commissioning or handover."],
-["Create a simple performance dashboard","Maintain a one-page view of key milestones, KPIs, open risks, decisions required and benefits achieved. Keep figures traceable."]
-]},
-{title:"3. Build trust and leadership",hint:"Show ownership, judgement and team impact",items:[
+["Create a simple performance dashboard","Maintain a one-page view of key milestones, KPIs, open risks, decisions required and benefits achieved. Keep figures traceable."]]},
+{title:"3. Build trust and leadership",items:[
 ["Ask for help or a decision with a clear recommendation","Do not just report a problem. Explain what you have checked, what you recommend and exactly what support or decision you need."],
 ["Seek specific feedback midway through the cycle","Ask your boss: “What is one thing I should do differently to increase my impact?” Act on the feedback and follow up."],
 ["Take ownership of an issue beyond your immediate scope","Choose a meaningful problem that affects the wider team. Agree the boundaries with your boss, then drive it to closure."],
 ["Coach or mentor a colleague","Help a team member become independently capable in a technical, project-management or problem-solving area. Record the capability gained."],
-["Recognise the contributions of others","Give credit to the people and teams who helped deliver a result. Build a reputation for collaborative leadership, not self-promotion."]
-]},
-{title:"4. Make your contribution unmistakable",hint:"Create evidence and prepare for the next level",items:[
+["Recognise the contributions of others","Give credit to the people and teams who helped deliver a result. Build a reputation for collaborative leadership, not self-promotion."]]},
+{title:"4. Make your contribution unmistakable",items:[
 ["Present a short options paper for a significant decision","Give your boss a clear comparison of alternatives, trade-offs, risks, cost and your recommendation—not a long problem description."],
 ["Document two or three achievement case studies","For each, record the challenge, your specific role, actions, measurable result and organisational benefit. Keep evidence available."],
 ["Request a conversation about next-grade expectations","Ask what responsibilities, behaviours and results demonstrate readiness for the next grade. Agree on any gaps to close."],
 ["Build a stakeholder feedback record","Request brief feedback from project, operations, maintenance or other internal stakeholders after meaningful deliveries. Capture specific outcomes."],
-["Prepare an appraisal evidence summary","Before appraisal, compile delivered targets, quantified benefits, leadership examples, feedback, additional responsibilities and next-level contributions. Share it with your boss in advance."]
-]}
+["Prepare an appraisal evidence summary","Before appraisal, compile delivered targets, quantified benefits, leadership examples, feedback, additional responsibilities and next-level contributions. Share it with your boss in advance."]]}
 ];
-const storageKey = "ambitionaction-v1";
-let completed = {};
-try { completed = JSON.parse(localStorage.getItem(storageKey) || "{}") || {}; } catch(e) { completed = {}; }
-const root = document.getElementById("tasks");
-let index = 0;
-groups.forEach((group, gi) => {
- const section = document.createElement("section");
- const heading = document.createElement("div"); heading.className = "section";
- heading.innerHTML = "<h2></h2><span></span>";
- heading.querySelector("h2").textContent = group.title;
- heading.querySelector("span").textContent = group.hint;
- section.appendChild(heading);
- const panel = document.createElement("div"); panel.className = "panel";
- group.items.forEach((item) => {
-  const id = "task-" + index;
-  const row = document.createElement("div"); row.className = "task";
-  const cb = document.createElement("input"); cb.type = "checkbox"; cb.id = id; cb.checked = !!completed[id];
-  const label = document.createElement("label"); label.htmlFor = id;
-  const title = document.createElement("strong"); title.textContent = (index+1) + ". " + item[0];
-  const desc = document.createElement("p"); desc.textContent = item[1];
-  label.append(title, desc);
-  cb.addEventListener("change", () => { completed[id] = cb.checked; localStorage.setItem(storageKey, JSON.stringify(completed)); row.classList.toggle("done", cb.checked); update(); });
-  row.append(cb,label); if(cb.checked) row.classList.add("done");
-  panel.appendChild(row); index++;
- });
- section.appendChild(panel); root.appendChild(section);
+const storageKey="ambitionaction-v1", uiKey="ambitionaction-ui-v1";
+let completed={},ui={pinned:true,collapsed:false};
+try{completed=JSON.parse(localStorage.getItem(storageKey)||"{}")||{}}catch(e){}
+try{ui={...ui,...JSON.parse(localStorage.getItem(uiKey)||"{}")}}catch(e){}
+const app=document.getElementById("app"),nav=document.getElementById("taskNav");
+let tasks=[],selected=0;
+groups.forEach((g,gi)=>{
+ const d=document.createElement("details");d.className="group";d.open=gi===0;
+ const s=document.createElement("summary");const name=document.createElement("span");name.textContent=g.title;const cnt=document.createElement("span");cnt.className="group-count";cnt.id="group-count-"+gi;s.append(name,cnt);d.append(s);
+ g.items.forEach((item)=>{
+  const n=tasks.length,id="task-"+n,row=document.createElement("div");row.className="side-task";
+  const cb=document.createElement("input");cb.type="checkbox";cb.id=id;cb.checked=!!completed[id];cb.setAttribute("aria-label","Mark "+item[0]+" complete");
+  const link=document.createElement("button");link.className="task-link";link.type="button";link.textContent=(n+1)+". "+item[0];
+  link.addEventListener("click",()=>{selected=n;renderDetail();document.querySelectorAll(".side-task").forEach((el,i)=>el.classList.toggle("selected",i===n));if(window.innerWidth<=700)app.classList.remove("mobile-open")});
+  cb.addEventListener("change",()=>{completed[id]=cb.checked;localStorage.setItem(storageKey,JSON.stringify(completed));row.classList.toggle("done",cb.checked);update()});
+  row.append(cb,link);if(cb.checked)row.classList.add("done");d.append(row);tasks.push({item,group:g.title,checkbox:cb,row,groupIndex:gi});
+ });nav.append(d);
 });
-function update(){
- const total = 20, done = Object.values(completed).filter(Boolean).length;
- document.getElementById("count").textContent = done + " of " + total + " completed";
- document.getElementById("fill").style.width = (done/total*100) + "%";
- const p = document.getElementById("progress"); p.setAttribute("aria-valuenow",done);
-}
-document.getElementById("reset").addEventListener("click",()=>{
- if(!confirm("Clear all 20 checkboxes?")) return;
- completed = {}; localStorage.removeItem(storageKey);
- document.querySelectorAll(".task input").forEach(cb=>{cb.checked=false;cb.closest(".task").classList.remove("done")});
- update();
-});
-update();
+function renderDetail(){const t=tasks[selected];document.getElementById("detailKicker").textContent="Selected action · "+(selected+1)+" of 20 · "+t.group;document.getElementById("detailTitle").textContent=t.item[0];document.getElementById("detailDesc").textContent=t.item[1];}
+function update(){const done=tasks.filter(t=>t.checkbox.checked).length;document.getElementById("count").textContent=done+" of 20 completed";document.getElementById("fill").style.width=(done/20*100)+"%";document.getElementById("progress").setAttribute("aria-valuenow",done);groups.forEach((g,i)=>{const c=tasks.filter(t=>t.groupIndex===i&&t.checkbox.checked).length;document.getElementById("group-count-"+i).textContent=c+"/5"});}
+function saveUI(){localStorage.setItem(uiKey,JSON.stringify(ui));app.classList.toggle("collapsed",ui.collapsed);document.getElementById("pinBtn").setAttribute("aria-pressed",String(ui.pinned));document.getElementById("pinBtn").textContent=ui.pinned?"📌":"📍";document.getElementById("collapseBtn").setAttribute("aria-label",ui.collapsed?"Expand sidebar":"Collapse sidebar");}
+document.getElementById("collapseBtn").addEventListener("click",()=>{ui.collapsed=!ui.collapsed;saveUI()});
+document.getElementById("pinBtn").addEventListener("click",()=>{ui.pinned=!ui.pinned;if(ui.pinned)ui.collapsed=false;saveUI()});
+document.getElementById("mobileOpen").addEventListener("click",()=>app.classList.add("mobile-open"));
+document.addEventListener("click",e=>{if(window.innerWidth<=700&&app.classList.contains("mobile-open")&&!e.target.closest(".sidebar")&&!e.target.closest("#mobileOpen"))app.classList.remove("mobile-open")});
+document.getElementById("reset").addEventListener("click",()=>{if(!confirm("Clear all 20 completed checkboxes?"))return;completed={};localStorage.removeItem(storageKey);tasks.forEach(t=>{t.checkbox.checked=false;t.row.classList.remove("done")});update()});
+renderDetail();update();saveUI();
 </script>
 </body></html>
