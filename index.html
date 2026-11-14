@@ -2,95 +2,100 @@
 <html lang="en">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#eef3f8">
+<meta name="theme-color" content="#edf3f8">
 <title>Ambition Action Tracker</title>
 <style>
-:root{--ink:#24364b;--muted:#718096;--line:#dce5ee;--page:#f3f6fa;--white:#fff;--navy:#314b68;--blue:#dceafa;--blue-ink:#355c85;--mint:#dff1e9;--mint-ink:#287455;--lav:#eee8f8;--peach:#faeee3;--yellow:#f8f1d9}
-*{box-sizing:border-box}body{margin:0;background:var(--page);color:var(--ink);font:14px/1.45 Inter,"Segoe UI",Arial,sans-serif}
-header{background:#e6eef7;border-bottom:1px solid #d5e0eb;padding:18px 24px}
-.head{max-width:1200px;margin:auto}.eyebrow{font-size:10px;letter-spacing:.15em;text-transform:uppercase;font-weight:750;color:#64809d}
-h1{font-size:27px;line-height:1.15;margin:4px 0;color:#263e57}header p{margin:5px 0 0;color:#647990;font-size:13px}
-.app{max-width:1200px;margin:16px auto;padding:0 16px 28px;display:grid;grid-template-columns:320px minmax(0,1fr);gap:14px;align-items:start}
-.sidebar{background:#fff;border:1px solid var(--line);border-radius:12px;overflow:hidden;position:sticky;top:12px;max-height:calc(100vh - 24px);display:flex;flex-direction:column;transition:width .18s}
-.side-top{display:flex;align-items:center;gap:7px;padding:10px;border-bottom:1px solid #edf1f5;min-height:48px}
-.side-title{font-weight:750;flex:1;font-size:13px;white-space:nowrap}
-.iconbtn,.softbtn{border:1px solid #d9e3ed;background:#f2f6fb;color:#45627f;border-radius:8px;padding:6px 9px;font-weight:650;cursor:pointer;font-size:12px}
+:root{--ink:#26394e;--muted:#718297;--line:#dce5ee;--page:#f3f6fa;--white:#fff;--blue:#e8f0fa;--blueink:#496b91;--mint:#e6f3ec;--mintink:#4f8068;--lav:#f0ebf8;--peach:#fbf0e7;--gold:#f8f3e3}
+*{box-sizing:border-box}body{margin:0;background:var(--page);color:var(--ink);font:13px/1.45 Inter,"Segoe UI",Arial,sans-serif}
+header{background:#e7eff7;border-bottom:1px solid #d9e3ed;padding:15px 20px 14px 22px;margin-left:218px}
+.head{max-width:1200px}.eyebrow{font-size:10px;letter-spacing:.14em;text-transform:uppercase;font-weight:750;color:#718ba6}
+h1{font-size:24px;line-height:1.15;margin:3px 0;color:#2c435b}header p{margin:4px 0 0;color:#6b8096;font-size:12px}
+.sidebar{position:fixed;z-index:10;left:0;top:0;bottom:0;width:218px;background:#fff;border-right:1px solid var(--line);display:flex;flex-direction:column;transition:width .18s}
+.side-head{height:55px;display:flex;align-items:center;gap:7px;padding:9px 10px;border-bottom:1px solid #edf1f5}
+.brand{font-weight:800;font-size:12px;letter-spacing:.06em;color:#4e6b89;flex:1;white-space:nowrap}
+.iconbtn,.softbtn{border:1px solid #dce5ee;background:#f1f5fa;color:#536f8c;border-radius:7px;padding:5px 8px;font-size:12px;cursor:pointer}
 .iconbtn:hover,.softbtn:hover{background:#e7eff8}
-.side-list{overflow:auto;padding:5px 9px 12px}
-.group{border-bottom:1px solid #edf1f5;padding:5px 0}
-.group summary{cursor:pointer;list-style:none;font-size:12px;font-weight:750;color:#536b84;padding:7px 5px;display:flex;justify-content:space-between;gap:8px}
-.group summary::-webkit-details-marker{display:none}.group summary:after{content:"⌄";color:#91a3b5}
-.group[open] summary:after{content:"⌃"}
-.group-count{font-size:10px;color:#8a9bad;font-weight:600}
-.side-task{display:flex;gap:8px;padding:6px 5px;border-radius:7px;align-items:flex-start}
-.side-task:hover{background:#f5f8fb}.side-task.selected{background:#edf4fb}
-.side-task input{accent-color:#6c9b87;width:15px;height:15px;margin:2px 0 0;flex:none;cursor:pointer}
-.task-link{border:0;background:transparent;padding:0;text-align:left;cursor:pointer;min-width:0;flex:1;color:var(--ink);font-size:12px;line-height:1.35}
-.task-link:hover{color:#38658f}.side-task.done .task-link{text-decoration:line-through;color:#94a1af}
-main{min-width:0}.card{background:#fff;border:1px solid var(--line);border-radius:12px;padding:15px 17px;margin-bottom:12px;box-shadow:0 3px 12px #29425b08}
-.progress-head{display:flex;justify-content:space-between;gap:10px;align-items:center;font-weight:750;font-size:13px}
-.count{color:#456f9c;font-variant-numeric:tabular-nums}
-.track{height:8px;background:#edf1f5;border-radius:99px;overflow:hidden;margin-top:10px}.fill{height:100%;width:0;background:#8fc5aa;transition:width .2s}
-.smallnote{font-size:12px;color:var(--muted);margin:8px 0 0}
-.summary-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
-.pill{background:#edf4fb;color:#587695;padding:5px 9px;border-radius:7px;font-size:11px;font-weight:650}
-.pill.mint{background:#e6f3ed;color:#4c8068}.pill.lav{background:#f0ebf8;color:#75618f}.pill.peach{background:#fbf0e7;color:#987253}
-.content-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:7px}
-.content-head h2{font-size:16px;margin:0}
-.detail-kicker{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:#8294a7;font-weight:750}
-.detail-title{font-size:19px;line-height:1.3;margin:5px 0 9px}
-.detail-desc{font-size:13px;color:#62758a;margin:0;max-width:720px}
-.tip{background:#f3f7fb;border:1px solid #e3ebf3;border-radius:9px;padding:11px 13px;margin-top:14px;font-size:12px;color:#5e748a}
-.actions{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
-button{font-family:inherit}.reset{background:#f8eded;border:1px solid #f0dada;color:#946767;border-radius:8px;padding:7px 10px;font-size:11px;font-weight:700;cursor:pointer}
-.reset:hover{background:#f5e4e4}
-.footer{font-size:11px;color:#98a5b3;text-align:center;padding:8px}
-.collapsed{grid-template-columns:56px minmax(0,1fr)}
-.collapsed .sidebar{width:56px}.collapsed .side-title,.collapsed .side-list{display:none}.collapsed .side-top{justify-content:center;padding:8px 5px}.collapsed #pinBtn{display:none}
-@media(max-width:700px){
- header{padding:15px 16px}.app{display:block;margin:10px auto;padding:0 10px}
- .sidebar{position:fixed;z-index:5;left:10px;top:10px;bottom:10px;width:min(340px,calc(100vw - 20px));max-height:none;box-shadow:0 12px 40px #1e34452b;transform:translateX(calc(-100% - 15px));transition:transform .2s}
- .mobile-open .sidebar{transform:translateX(0)}
- .mobile-open:after{content:"";position:fixed;inset:0;background:#1d304455;z-index:4}
- .side-list{display:block}.side-title{display:block}.side-top{justify-content:flex-start}
- .collapsed .sidebar{width:min(340px,calc(100vw - 20px))}.collapsed .side-title,.collapsed .side-list{display:block}.collapsed #pinBtn{display:inline-block}
- .collapsed .side-top{justify-content:flex-start;padding:10px}
- .mobilebar{display:flex!important;margin-bottom:10px}
- .detail-title{font-size:17px}
+.side-scroll{overflow:auto;padding:8px 9px;flex:1}
+.side-label{font-size:9px;letter-spacing:.12em;text-transform:uppercase;font-weight:800;color:#9aa8b7;padding:7px 5px 5px}
+.side-group{margin:2px 0 5px}.side-group summary{cursor:pointer;list-style:none;padding:7px 6px;border-radius:7px;font-weight:750;font-size:11px;color:#536a82;display:flex;justify-content:space-between;gap:5px}
+.side-group summary::-webkit-details-marker{display:none}.side-group summary:hover{background:#f4f7fa}
+.side-group summary:after{content:"⌄";color:#9aa9b8}.side-group[open] summary:after{content:"⌃"}
+.side-item{display:flex;align-items:flex-start;gap:6px;padding:5px 5px 5px 8px;border-radius:6px}
+.side-item.active{background:#edf4fb}.side-item input{width:13px;height:13px;margin:2px 0 0;accent-color:#78a58e;flex:none}
+.side-item button{border:0;background:transparent;padding:0;text-align:left;color:#596f85;font-size:10px;line-height:1.35;cursor:pointer;flex:1}
+.side-item.done button{text-decoration:line-through;color:#9aa6b2}
+.db-panel{border-top:1px solid #e9eef3;padding:10px 11px 12px;background:#fbfcfe}
+.db-title{font-size:10px;letter-spacing:.1em;text-transform:uppercase;font-weight:800;color:#8b9bad;margin-bottom:7px}
+.db-line{display:flex;justify-content:space-between;gap:5px;margin:4px 0;font-size:10px}.db-line span:first-child{color:#8191a2}.db-line strong{font-weight:700;color:#4e657c;text-align:right;overflow-wrap:anywhere}
+.status{display:flex;align-items:center;gap:6px;margin-top:8px;font-size:10px;color:#8c7954}
+.dot{width:8px;height:8px;border-radius:50%;background:#d7ad62;display:inline-block;flex:none}
+.dot.ok{background:#42a477;box-shadow:0 0 0 3px #e4f3eb}
+.main{margin-left:218px;padding:13px 16px 30px;max-width:1500px}
+.toolbar{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin:0 0 10px}
+.progress-card{background:#fff;border:1px solid var(--line);border-radius:10px;padding:10px 13px;min-width:220px;flex:1}
+.progress-head{display:flex;justify-content:space-between;font-size:11px;font-weight:750}.progress-count{color:#52779e;font-variant-numeric:tabular-nums}
+.track{height:6px;background:#edf1f5;border-radius:99px;overflow:hidden;margin-top:7px}.fill{height:100%;width:0;background:#91c5a9;transition:width .2s}
+.toolbar-actions{display:flex;gap:6px}.softbtn{font-weight:700;padding:7px 10px}
+.category{margin:15px 0 7px;display:flex;align-items:center;gap:8px}.category h2{font-size:13px;margin:0;color:#4f6881}.category small{font-size:10px;color:#98a6b4}
+.card{background:#fff;border:1px solid var(--line);border-radius:11px;padding:12px 14px;margin:0 0 9px;box-shadow:0 2px 9px #253f5807}
+.card.completed{border-left:3px solid #9ccab1}
+.card-head{display:flex;align-items:flex-start;gap:9px}
+.parent-check{width:17px;height:17px;margin:2px 0 0;accent-color:#77a68d;flex:none;cursor:pointer}
+.card-main{flex:1;min-width:0}
+.card-title{font-size:13px;font-weight:800;color:#2e455d;line-height:1.35}
+.card-desc{font-size:11px;color:#718397;margin:4px 0 0;line-height:1.4}
+.state{font-size:9px;padding:3px 7px;border-radius:20px;background:#edf3f9;color:#68819a;white-space:nowrap}
+.completed .state{background:#e8f4ed;color:#548369}
+.entry{margin:10px 0 0 26px}
+.entry label,.subtasks-label{display:block;font-size:10px;font-weight:800;color:#73869a;margin-bottom:4px}
+textarea{width:100%;min-height:45px;resize:vertical;border:1px solid #e0e8f0;border-radius:7px;background:#fbfcfe;padding:7px 9px;font:11px/1.4 inherit;color:var(--ink);outline:none}
+textarea:focus,input.sub-input:focus{border-color:#a9c2dc;box-shadow:0 0 0 2px #eaf1f8}
+.subtasks{margin:9px 0 0 26px}.subtask{display:flex;align-items:flex-start;gap:7px;padding:4px 0;border-bottom:1px solid #f0f3f6}
+.subtask:last-child{border-bottom:0}.subtask input[type=checkbox]{width:14px;height:14px;margin:2px 0 0;accent-color:#78a58e;flex:none}
+.subtask input[type=text]{flex:1;min-width:0;border:1px solid transparent;border-radius:5px;padding:3px 5px;background:transparent;color:#536a80;font:11px/1.35 inherit}
+.subtask input[type=text]:hover{background:#f7f9fb;border-color:#edf1f5}
+.subtask.done input[type=text]{text-decoration:line-through;color:#9aa7b3}
+.remove-sub{border:0;background:transparent;color:#b0bbc5;cursor:pointer;font-size:14px;padding:0 4px}
+.remove-sub:hover{color:#b46f6f}
+.add-sub{margin:6px 0 0;border:1px dashed #d7e2ec;background:#f7f9fc;color:#66809a;border-radius:6px;padding:5px 9px;font-size:10px;font-weight:700;cursor:pointer}
+.add-sub:hover{background:#eef4fa}
+.card-foot{display:flex;justify-content:space-between;align-items:center;margin:8px 0 0 26px;color:#9aa7b5;font-size:9px}
+.empty{color:#9aa7b5;font-size:10px}
+.sidebar-collapsed .sidebar{width:48px}.sidebar-collapsed header,.sidebar-collapsed .main{margin-left:48px}
+.sidebar-collapsed .brand,.sidebar-collapsed .side-scroll,.sidebar-collapsed .db-panel{display:none}
+.sidebar-collapsed .side-head{justify-content:center;padding:8px 4px}
+.mobile-toggle{display:none}
+@media(max-width:760px){
+ header{margin-left:0;padding:13px 15px}.main{margin-left:0;padding:10px}.sidebar{width:min(280px,85vw);transform:translateX(-105%);box-shadow:8px 0 25px #23394d22;transition:transform .2s}.mobile-open .sidebar{transform:translateX(0)}
+ .mobile-open:after{content:"";position:fixed;inset:0;background:#26394e55;z-index:8}.side-head,.side-scroll,.db-panel{display:flex}.side-scroll{display:block}.brand{display:block}
+ .sidebar-collapsed .sidebar{width:min(280px,85vw);transform:translateX(-105%)}.sidebar-collapsed .sidebar .brand,.sidebar-collapsed .sidebar .side-scroll,.sidebar-collapsed .sidebar .db-panel{display:block}
+ .sidebar-collapsed .sidebar .side-head{justify-content:flex-start;padding:9px 10px}
+ .mobile-toggle{display:inline-block}.toolbar{align-items:stretch}.progress-card{min-width:0}
 }
-.mobilebar{display:none;justify-content:flex-start}
-</style>
-</head>
+</style></head>
 <body>
-<header><div class="head"><div class="eyebrow">Personal performance system</div><h1>Ambition Action Tracker</h1><p>Make meaningful results visible, build trust and prepare a strong case for your next grade.</p></div></header>
-<div class="app" id="app">
-<aside class="sidebar" aria-label="Action checklist">
- <div class="side-top"><button class="iconbtn" id="collapseBtn" title="Collapse or expand sidebar" aria-label="Collapse sidebar">☰</button><span class="side-title">Your 20 actions</span><button class="iconbtn" id="pinBtn" title="Pin sidebar open" aria-pressed="true">📌</button></div>
- <div class="side-list" id="taskNav"></div>
+<aside class="sidebar" id="sidebar">
+ <div class="side-head"><button class="iconbtn" id="collapseBtn" title="Collapse sidebar">☰</button><span class="brand">AMBITION ACTION</span><button class="iconbtn" id="pinBtn" title="Pin sidebar">📌</button></div>
+ <div class="side-scroll"><div class="side-label">Action list · 20 activities</div><div id="navGroups"></div></div>
+ <div class="db-panel">
+  <div class="db-title">Database status</div>
+  <div class="db-line"><span>Target DB</span><strong id="dbName">ambitionaction</strong></div>
+  <div class="db-line"><span>Neon DB size</span><strong id="dbSize">Not configured</strong></div>
+  <div class="db-line"><span>Local data</span><strong id="localSize">0 KB</strong></div>
+  <div class="status" id="dbStatus"><i class="dot"></i><span>Neon not connected</span></div>
+ </div>
 </aside>
-<main>
- <div class="mobilebar"><button class="softbtn" id="mobileOpen">☰ Show action list</button></div>
- <section class="card">
-  <div class="progress-head"><span>Your progress</span><span class="count" id="count">0 of 20 completed</span></div>
-  <div class="track" id="progress" role="progressbar" aria-label="Tasks completed" aria-valuemin="0" aria-valuemax="20" aria-valuenow="0"><div class="fill" id="fill"></div></div>
-  <div class="summary-row"><span class="pill">5 Align & communicate</span><span class="pill mint">5 Deliver results</span><span class="pill lav">5 Build leadership</span><span class="pill peach">5 Promotion evidence</span></div>
-  <p class="smallnote">Tick an action only when it is genuinely completed. Progress is saved in this browser.</p>
- </section>
- <section class="card">
-  <div class="actions"><strong style="font-size:13px">How to use this tracker</strong><button class="reset" id="reset" type="button">Reset checkboxes</button></div>
-  <p class="smallnote">Choose an activity from the sidebar to see its practical guidance. Work steadily; meaningful outcomes matter more than activity for its own sake.</p>
- </section>
- <section class="card" id="detail" aria-live="polite">
-  <div class="detail-kicker" id="detailKicker">Selected action · 1 of 20</div>
-  <h2 class="detail-title" id="detailTitle">Agree on the three outcomes that matter most</h2>
-  <p class="detail-desc" id="detailDesc">Ask your boss which results would make this a particularly successful quarter. Confirm priorities, measures and deadlines.</p>
-  <div class="tip"><strong>Make it count:</strong> Keep a short record of the outcome, your contribution, the measurable result and who benefited. Use this evidence in your weekly updates and appraisal summary.</div>
- </section>
- <div class="footer">Ambition Action · Private working checklist · Browser-saved progress</div>
-</main>
+<header><div class="head"><div class="eyebrow">Personal performance system</div><h1>Ambition Action Tracker</h1><p>Turn strategic priorities into practical work, subtasks and measurable outcomes.</p></div></header>
+<div class="main" id="main">
+ <div class="toolbar">
+  <div class="progress-card"><div class="progress-head"><span>Overall completion</span><span class="progress-count" id="count">0 of 20 activities</span></div><div class="track"><div class="fill" id="fill"></div></div></div>
+  <div class="toolbar-actions"><button class="softbtn mobile-toggle" id="mobileMenu">☰ Actions</button><button class="softbtn" id="exportBtn">Export backup</button><button class="softbtn" id="resetBtn">Reset completion</button></div>
+ </div>
+ <div id="cards"></div>
+ <div style="text-align:center;color:#9aa7b5;font-size:10px;padding:12px 0">Local-first storage · Your changes are saved automatically in this browser</div>
 </div>
 <script>
-const groups=[
+const initialGroups=[
 {title:"1. Align and communicate",items:[
 ["Agree on the three outcomes that matter most","Ask your boss: “Which two or three results would make this a particularly successful quarter for our team?” Confirm priorities, measures and deadlines."],
 ["Send a concise weekly update","Share completed work, measurable impact, next week's priorities and any decision or support needed. Keep it factual and brief."],
@@ -116,32 +121,81 @@ const groups=[
 ["Build a stakeholder feedback record","Request brief feedback from project, operations, maintenance or other internal stakeholders after meaningful deliveries. Capture specific outcomes."],
 ["Prepare an appraisal evidence summary","Before appraisal, compile delivered targets, quantified benefits, leadership examples, feedback, additional responsibilities and next-level contributions. Share it with your boss in advance."]]}
 ];
-const storageKey="ambitionaction-v1", uiKey="ambitionaction-ui-v1";
-let completed={},ui={pinned:true,collapsed:false};
-try{completed=JSON.parse(localStorage.getItem(storageKey)||"{}")||{}}catch(e){}
-try{ui={...ui,...JSON.parse(localStorage.getItem(uiKey)||"{}")}}catch(e){}
-const app=document.getElementById("app"),nav=document.getElementById("taskNav");
-let tasks=[],selected=0;
-groups.forEach((g,gi)=>{
- const d=document.createElement("details");d.className="group";d.open=gi===0;
- const s=document.createElement("summary");const name=document.createElement("span");name.textContent=g.title;const cnt=document.createElement("span");cnt.className="group-count";cnt.id="group-count-"+gi;s.append(name,cnt);d.append(s);
- g.items.forEach((item)=>{
-  const n=tasks.length,id="task-"+n,row=document.createElement("div");row.className="side-task";
-  const cb=document.createElement("input");cb.type="checkbox";cb.id=id;cb.checked=!!completed[id];cb.setAttribute("aria-label","Mark "+item[0]+" complete");
-  const link=document.createElement("button");link.className="task-link";link.type="button";link.textContent=(n+1)+". "+item[0];
-  link.addEventListener("click",()=>{selected=n;renderDetail();document.querySelectorAll(".side-task").forEach((el,i)=>el.classList.toggle("selected",i===n));if(window.innerWidth<=700)app.classList.remove("mobile-open")});
-  cb.addEventListener("change",()=>{completed[id]=cb.checked;localStorage.setItem(storageKey,JSON.stringify(completed));row.classList.toggle("done",cb.checked);update()});
-  row.append(cb,link);if(cb.checked)row.classList.add("done");d.append(row);tasks.push({item,group:g.title,checkbox:cb,row,groupIndex:gi});
- });nav.append(d);
-});
-function renderDetail(){const t=tasks[selected];document.getElementById("detailKicker").textContent="Selected action · "+(selected+1)+" of 20 · "+t.group;document.getElementById("detailTitle").textContent=t.item[0];document.getElementById("detailDesc").textContent=t.item[1];}
-function update(){const done=tasks.filter(t=>t.checkbox.checked).length;document.getElementById("count").textContent=done+" of 20 completed";document.getElementById("fill").style.width=(done/20*100)+"%";document.getElementById("progress").setAttribute("aria-valuenow",done);groups.forEach((g,i)=>{const c=tasks.filter(t=>t.groupIndex===i&&t.checkbox.checked).length;document.getElementById("group-count-"+i).textContent=c+"/5"});}
-function saveUI(){localStorage.setItem(uiKey,JSON.stringify(ui));app.classList.toggle("collapsed",ui.collapsed);document.getElementById("pinBtn").setAttribute("aria-pressed",String(ui.pinned));document.getElementById("pinBtn").textContent=ui.pinned?"📌":"📍";document.getElementById("collapseBtn").setAttribute("aria-label",ui.collapsed?"Expand sidebar":"Collapse sidebar");}
-document.getElementById("collapseBtn").addEventListener("click",()=>{ui.collapsed=!ui.collapsed;saveUI()});
-document.getElementById("pinBtn").addEventListener("click",()=>{ui.pinned=!ui.pinned;if(ui.pinned)ui.collapsed=false;saveUI()});
-document.getElementById("mobileOpen").addEventListener("click",()=>app.classList.add("mobile-open"));
-document.addEventListener("click",e=>{if(window.innerWidth<=700&&app.classList.contains("mobile-open")&&!e.target.closest(".sidebar")&&!e.target.closest("#mobileOpen"))app.classList.remove("mobile-open")});
-document.getElementById("reset").addEventListener("click",()=>{if(!confirm("Clear all 20 completed checkboxes?"))return;completed={};localStorage.removeItem(storageKey);tasks.forEach(t=>{t.checkbox.checked=false;t.row.classList.remove("done")});update()});
-renderDetail();update();saveUI();
-</script>
-</body></html>
+const STORAGE_KEY="ambitionaction-data-v2",OLD_KEY="ambitionaction-v1",UI_KEY="ambitionaction-ui-v2";
+let data=[],ui={pinned:true,collapsed:false};
+function freshData(){return initialGroups.flatMap((g,gi)=>g.items.map((it,i)=>({id:"a"+(gi*5+i+1),group:g.title,title:it[0],guidance:it[1],done:false,actionText:"",subtasks:[]})))}
+try{const saved=JSON.parse(localStorage.getItem(STORAGE_KEY)||"null");if(Array.isArray(saved)&&saved.length===20)data=saved;else{data=freshData();const old=JSON.parse(localStorage.getItem(OLD_KEY)||"{}");data.forEach((x,i)=>x.done=!!old["task-"+i]);}}catch(e){data=freshData()}
+try{ui={...ui,...JSON.parse(localStorage.getItem(UI_KEY)||"{}")}}catch(e){}
+const cards=document.getElementById("cards"),nav=document.getElementById("navGroups");
+function save(){localStorage.setItem(STORAGE_KEY,JSON.stringify(data));updateStats()}
+function escapeHtml(s){return String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
+function render(){
+ cards.innerHTML="";nav.innerHTML="";
+ const groups=[...new Set(data.map(x=>x.group))];
+ groups.forEach((group,gi)=>{
+  const det=document.createElement("details");det.className="side-group";det.open=gi===0;
+  const sum=document.createElement("summary");sum.textContent=group;const count=document.createElement("span");count.id="nav-count-"+gi;count.style.cssText="font-size:9px;color:#94a3b3;font-weight:600";sum.append(count);det.append(sum);
+  data.forEach((item,index)=>{if(item.group!==group)return;
+   const line=document.createElement("div");line.className="side-item";line.dataset.index=index;
+   const cb=document.createElement("input");cb.type="checkbox";cb.checked=item.done;cb.title="Mark activity complete";cb.addEventListener("change",()=>{item.done=cb.checked;save();line.classList.toggle("done",item.done);document.getElementById("card-"+index).classList.toggle("completed",item.done);document.getElementById("parent-"+index).checked=item.done;});
+   const jump=document.createElement("button");jump.type="button";jump.textContent=(index+1)+". "+item.title;jump.addEventListener("click",()=>{document.getElementById("card-"+index).scrollIntoView({behavior:"smooth",block:"start"});document.querySelectorAll(".side-item").forEach(n=>n.classList.remove("active"));line.classList.add("active");if(innerWidth<=760)document.body.classList.remove("mobile-open")});
+   line.append(cb,jump);if(item.done)line.classList.add("done");det.append(line);
+  });nav.append(det);
+  const heading=document.createElement("div");heading.className="category";heading.innerHTML="<h2>"+escapeHtml(group)+"</h2><small>5 activities</small>";cards.append(heading);
+  data.forEach((item,index)=>{if(item.group!==group)return;cards.append(buildCard(item,index))});
+ });
+ updateStats();
+}
+function buildCard(item,index){
+ const card=document.createElement("section");card.className="card"+(item.done?" completed":"");card.id="card-"+index;
+ const head=document.createElement("div");head.className="card-head";
+ const parent=document.createElement("input");parent.type="checkbox";parent.className="parent-check";parent.id="parent-"+index;parent.checked=item.done;parent.setAttribute("aria-label","Mark activity complete");
+ parent.addEventListener("change",()=>{item.done=parent.checked;save();card.classList.toggle("completed",item.done);const side=nav.querySelector('.side-item[data-index="'+index+'"]');if(side){side.querySelector("input").checked=item.done;side.classList.toggle("done",item.done)}state.textContent=item.done?"Completed":"In progress"});
+ const main=document.createElement("div");main.className="card-main";
+ const title=document.createElement("div");title.className="card-title";title.textContent=(index+1)+". "+item.title;
+ const desc=document.createElement("p");desc.className="card-desc";desc.textContent=item.guidance;
+ main.append(title,desc);
+ const state=document.createElement("span");state.className="state";state.textContent=item.done?"Completed":"In progress";
+ head.append(parent,main,state);card.append(head);
+ const entry=document.createElement("div");entry.className="entry";
+ const label=document.createElement("label");label.textContent="MY ACTUAL ACTION / WORK";
+ const ta=document.createElement("textarea");ta.placeholder="Describe the actual work you will do: who you will approach, what you will deliver, the expected result, and any follow-up...";ta.value=item.actionText||"";
+ ta.addEventListener("input",()=>{item.actionText=ta.value;save()});entry.append(label,ta);card.append(entry);
+ const sub=document.createElement("div");sub.className="subtasks";
+ const sublabel=document.createElement("div");sublabel.className="subtasks-label";sublabel.textContent="SUBTASKS · "+item.subtasks.filter(s=>s.done).length+"/"+item.subtasks.length+" completed";sub.append(sublabel);
+ item.subtasks.forEach((st,si)=>sub.append(buildSubtask(item,st,si,sublabel,index)));
+ const add=document.createElement("button");add.type="button";add.className="add-sub";add.textContent="+ Add subtask";
+ add.addEventListener("click",()=>{item.subtasks.push({text:"",done:false});save();render();const inputs=document.querySelectorAll("#card-"+index+" .subtask input[type=text]");inputs[inputs.length-1]?.focus()});
+ sub.append(add);card.append(sub);
+ const foot=document.createElement("div");foot.className="card-foot";const total=item.subtasks.length;foot.textContent=total?total+" subtask"+(total===1?"":"s"):"No subtasks added yet";card.append(foot);
+ return card;
+}
+function buildSubtask(item,st,si,sublabel,index){
+ const row=document.createElement("div");row.className="subtask"+(st.done?" done":"");
+ const cb=document.createElement("input");cb.type="checkbox";cb.checked=!!st.done;cb.setAttribute("aria-label","Complete subtask");cb.addEventListener("change",()=>{st.done=cb.checked;row.classList.toggle("done",st.done);sublabel.textContent="SUBTASKS · "+item.subtasks.filter(s=>s.done).length+"/"+item.subtasks.length+" completed";save()});
+ const input=document.createElement("input");input.type="text";input.value=st.text||"";input.placeholder="Describe a specific step...";input.setAttribute("aria-label","Subtask description");input.addEventListener("input",()=>{st.text=input.value;save()});
+ const del=document.createElement("button");del.type="button";del.className="remove-sub";del.title="Remove subtask";del.textContent="×";del.addEventListener("click",()=>{item.subtasks.splice(si,1);save();render()});
+ row.append(cb,input,del);return row;
+}
+function updateStats(){
+ const done=data.filter(x=>x.done).length;document.getElementById("count").textContent=done+" of 20 activities";document.getElementById("fill").style.width=(done/20*100)+"%";
+ groupsCount();
+ const size=new Blob([localStorage.getItem(STORAGE_KEY)||JSON.stringify(data)]).size;document.getElementById("localSize").textContent=size<1024?size+" B":(size/1024).toFixed(1)+" KB";
+}
+function groupsCount(){const groups=[...new Set(data.map(x=>x.group))];groups.forEach((g,i)=>{const el=document.getElementById("nav-count-"+i);if(el){const n=data.filter(x=>x.group===g&&x.done).length;el.textContent=n+"/5"}})}
+function saveUi(){localStorage.setItem(UI_KEY,JSON.stringify(ui));document.body.classList.toggle("sidebar-collapsed",ui.collapsed);document.getElementById("pinBtn").textContent=ui.pinned?"📌":"📍";document.getElementById("pinBtn").title=ui.pinned?"Sidebar pinned":"Sidebar unpinned"}
+document.getElementById("collapseBtn").addEventListener("click",()=>{ui.collapsed=!ui.collapsed;saveUi()});
+document.getElementById("pinBtn").addEventListener("click",()=>{ui.pinned=!ui.pinned;if(ui.pinned)ui.collapsed=false;saveUi()});
+document.getElementById("mobileMenu").addEventListener("click",()=>document.body.classList.add("mobile-open"));
+document.addEventListener("click",e=>{if(innerWidth<=760&&document.body.classList.contains("mobile-open")&&!e.target.closest(".sidebar")&&!e.target.closest("#mobileMenu"))document.body.classList.remove("mobile-open")});
+document.getElementById("resetBtn").addEventListener("click",()=>{if(!confirm("Reset the completion checkboxes for all activities and subtasks? Your action text and subtask descriptions will be kept."))return;data.forEach(x=>{x.done=false;x.subtasks.forEach(s=>s.done=false)});save();render()});
+document.getElementById("exportBtn").addEventListener("click",()=>{const blob=new Blob([JSON.stringify({app:"Ambition Action Tracker",version:2,exportedAt:new Date().toISOString(),data},null,2)],{type:"application/json"});const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="ambitionaction-backup.json";a.click();URL.revokeObjectURL(a.href)});
+async function checkNeon(){
+ const status=document.getElementById("dbStatus"),name=document.getElementById("dbName"),size=document.getElementById("dbSize");
+ try{const res=await fetch("/api/db-status",{cache:"no-store"});if(!res.ok)throw new Error("status unavailable");const d=await res.json();
+  if(d.connected){name.textContent=d.database||"Connected";size.textContent=d.size_pretty||"Available";status.innerHTML='<i class="dot ok"></i><span style="color:#4f8b6a">Neon connected</span>'}
+  else{if(d.database)name.textContent=d.database;size.textContent=d.configured?"Unavailable":"Not configured";status.innerHTML='<i class="dot"></i><span>Neon '+(d.configured?"connection failed":"not connected")+'</span>'}
+ }catch(e){size.textContent="Not configured";status.innerHTML='<i class="dot"></i><span>Neon not connected</span>'}
+}
+render();checkNeon();
+</script></body></html>
