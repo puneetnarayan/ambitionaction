@@ -1,0 +1,12 @@
+{
+  "name": "ambitionaction",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Local-first personal performance and action tracker",
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "pg": "^8.16.3"
+  }
+}
