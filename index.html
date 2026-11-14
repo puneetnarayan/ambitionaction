@@ -8,7 +8,7 @@
 :root{--ink:#26394e;--muted:#687d92;--line:#d3deea;--page:#edf2f7;--white:#fff;--blue:#dce8f6;--blueink:#3e6289;--mint:#dceee3;--mintink:#47785f;--lav:#e8e0f3;--peach:#f5e5d7;--gold:#f1e9ce}
 *{box-sizing:border-box}body{margin:0;background:var(--page);color:var(--ink);font:13px/1.45 Inter,"Segoe UI",Arial,sans-serif}
 header{background:#dfe9f4;border-bottom:1px solid #cbd9e7;padding:10px 17px 9px 19px;margin-left:218px}
-.head{max-width:1200px}.eyebrow{font-size:10px;letter-spacing:.14em;text-transform:uppercase;font-weight:750;color:#718ba6}
+.head{max-width:1200px}.header-version{display:inline-flex;align-items:center;margin:5px 0 0;padding:3px 9px;border:1px solid #b9d5c3;border-radius:999px;background:#e4f1e8;color:#47785f;font-size:10px;font-weight:800;letter-spacing:.04em}.eyebrow{font-size:10px;letter-spacing:.14em;text-transform:uppercase;font-weight:750;color:#718ba6}
 h1{font-size:21px;line-height:1.15;margin:2px 0;color:#2c435b}header p{margin:4px 0 0;color:#6b8096;font-size:12px}
 .sidebar{position:fixed;z-index:10;left:0;top:0;bottom:0;width:218px;background:#fff;border-right:1px solid var(--line);display:flex;flex-direction:column;transition:width .18s}
 .side-head{height:55px;display:flex;align-items:center;gap:7px;padding:9px 10px;border-bottom:1px solid #edf1f5}
@@ -97,7 +97,7 @@ textarea:focus,input.sub-input:focus{border-color:#a9c2dc;box-shadow:0 0 0 2px #
   <div class="status" id="dbStatus"><i class="dot"></i><span>Neon not connected</span></div>
  </div>
 </aside>
-<header><div class="head"><div class="eyebrow">Personal performance system</div><h1>Ambition Action Tracker</h1><p>Turn strategic priorities into practical work, subtasks and measurable outcomes.</p></div></header>
+<header><div class="head"><div class="eyebrow">Personal performance system</div><h1>Ambition Action Tracker</h1><span class="header-version" aria-label="Application version 1.1 current">v1.1 · CURRENT</span><p>Turn strategic priorities into practical work, subtasks and measurable outcomes.</p></div></header>
 <div class="main" id="main">
  <div class="toolbar">
   <div class="progress-card"><div class="progress-head"><span>Overall completion</span><span class="progress-count" id="count">0 of 20 activities</span></div><div class="track"><div class="fill" id="fill"></div></div></div>
