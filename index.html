@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#edf3f8">
-<title>Ambition Action Tracker</title>
+<title>Ambition Action Tracker · v1.0</title>
 <style>
 :root{--ink:#26394e;--muted:#687d92;--line:#d3deea;--page:#edf2f7;--white:#fff;--blue:#dce8f6;--blueink:#3e6289;--mint:#dceee3;--mintink:#47785f;--lav:#e8e0f3;--peach:#f5e5d7;--gold:#f1e9ce}
 *{box-sizing:border-box}body{margin:0;background:var(--page);color:var(--ink);font:13px/1.45 Inter,"Segoe UI",Arial,sans-serif}
@@ -16,7 +16,7 @@ h1{font-size:21px;line-height:1.15;margin:2px 0;color:#2c435b}header p{margin:4p
 .iconbtn,.softbtn{border:1px solid #dce5ee;background:#f1f5fa;color:#536f8c;border-radius:7px;padding:5px 8px;font-size:12px;cursor:pointer}
 .iconbtn:hover,.softbtn:hover{background:#e7eff8}
 .side-scroll{overflow:auto;padding:8px 9px;flex:1}
-.side-label{font-size:9px;letter-spacing:.12em;text-transform:uppercase;font-weight:800;color:#9aa8b7;padding:7px 5px 5px}
+.side-label{font-size:9px;letter-spacing:.12em;text-transform:uppercase;font-weight:800;color:#9aa8b7;padding:7px 5px 5px}.version-area{padding:0 2px 9px;margin:0 0 7px;border-bottom:1px solid #e9eef4}.version-tabs{display:flex;gap:5px;align-items:center}.version-tab{display:flex;align-items:center;justify-content:space-between;gap:8px;width:100%;padding:7px 9px;border:1px solid #bfcfe0;border-radius:7px;background:#dce8f6;color:#365879;box-shadow:inset 3px 0 0 #6f91b6}.version-name{font-size:12px;font-weight:800;letter-spacing:.02em}.version-state{font-size:9px;font-weight:700;color:#52779a;background:#edf3fa;padding:2px 6px;border-radius:10px}.version-note{font-size:9px;color:#8999aa;padding:4px 2px 0}
 .side-group{margin:2px 0 5px}.side-group summary{cursor:pointer;list-style:none;padding:7px 6px;border-radius:7px;font-weight:750;font-size:11px;color:#536a82;display:flex;justify-content:space-between;gap:5px}
 .side-group summary::-webkit-details-marker{display:none}.side-group summary:hover{background:#f4f7fa}
 .side-group summary:after{content:"⌄";color:#9aa9b8}.side-group[open] summary:after{content:"⌃"}
@@ -88,7 +88,7 @@ textarea:focus,input.sub-input:focus{border-color:#a9c2dc;box-shadow:0 0 0 2px #
 <body>
 <aside class="sidebar" id="sidebar">
  <div class="side-head"><button class="iconbtn" id="collapseBtn" title="Collapse sidebar">☰</button><span class="brand">AMBITION ACTION</span><button class="iconbtn" id="pinBtn" title="Pin sidebar">📌</button></div>
- <div class="side-scroll"><div class="side-label">Action list · 20 activities</div><div id="navGroups"></div></div>
+ <div class="side-scroll"><div class="version-area"><div class="side-label">APPLICATION VERSIONS</div><div class="version-tabs" id="versionTabs" role="tablist" aria-label="Application versions"><div class="version-tab active" role="tab" aria-selected="true" aria-current="page"><span class="version-name">v1.0</span><span class="version-state">Current</span></div></div><div class="version-note">Baseline release</div></div><div class="side-label">Action list · 20 activities</div><div id="navGroups"></div></div>
  <div class="db-panel">
   <div class="db-title">Database status</div>
   <div class="db-line"><span>Target DB</span><strong id="dbName">ambitionaction</strong></div>
