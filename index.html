@@ -65,6 +65,18 @@ textarea:focus,input.sub-input:focus{border-color:#a9c2dc;box-shadow:0 0 0 2px #
 .sidebar-collapsed .brand,.sidebar-collapsed .side-scroll,.sidebar-collapsed .db-panel{display:none}
 .sidebar-collapsed .side-head{justify-content:center;padding:8px 4px}
 .mobile-toggle{display:none}
+.toolbar-actions .softbtn{background:#eaf1f8;border-color:#d9e5f0;color:#506f8e}
+.toolbar-actions .softbtn.report{background:#e8f3ed;border-color:#d5e9dd;color:#4e8068}
+.toolbar-actions .softbtn.expand{background:#f0ebf8;border-color:#e3daf1;color:#76658f}
+.toolbar-actions .softbtn.collapse{background:#fbf0e7;border-color:#f1e1d2;color:#987657}
+.category{padding:8px 11px;border-radius:8px;border:1px solid transparent}
+.category.cat-0{background:#eaf1fa;border-color:#dce7f4}.category.cat-1{background:#eaf4ee;border-color:#dcebe1}
+.category.cat-2{background:#f1edf8;border-color:#e5def1}.category.cat-3{background:#fbf1e8;border-color:#f1e4d7}
+.card.cat-0{background:#fff;border-left:3px solid #c5d8ed}.card.cat-1{background:#fff;border-left:3px solid #c5e0d0}
+.card.cat-2{background:#fff;border-left:3px solid #d8cce9}.card.cat-3{background:#fff;border-left:3px solid #efd7c2}
+.card.cat-0 .entry textarea{background:#f8fafd}.card.cat-1 .entry textarea{background:#f8fcf9}
+.card.cat-2 .entry textarea{background:#fbf9fd}.card.cat-3 .entry textarea{background:#fdfaf7}
+@media print{.sidebar,.toolbar,.mobile-toggle{display:none!important}header{margin:0;background:#eaf1f8!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}.main{margin:0;padding:12px}.card,.category{break-inside:avoid;-webkit-print-color-adjust:exact;print-color-adjust:exact}}
 @media(max-width:760px){
  header{margin-left:0;padding:13px 15px}.main{margin-left:0;padding:10px}.sidebar{width:min(280px,85vw);transform:translateX(-105%);box-shadow:8px 0 25px #23394d22;transition:transform .2s}.mobile-open .sidebar{transform:translateX(0)}
  .mobile-open:after{content:"";position:fixed;inset:0;background:#26394e55;z-index:8}.side-head,.side-scroll,.db-panel{display:flex}.side-scroll{display:block}.brand{display:block}
@@ -89,7 +101,7 @@ textarea:focus,input.sub-input:focus{border-color:#a9c2dc;box-shadow:0 0 0 2px #
 <div class="main" id="main">
  <div class="toolbar">
   <div class="progress-card"><div class="progress-head"><span>Overall completion</span><span class="progress-count" id="count">0 of 20 activities</span></div><div class="track"><div class="fill" id="fill"></div></div></div>
-  <div class="toolbar-actions"><button class="softbtn mobile-toggle" id="mobileMenu">☰ Actions</button><button class="softbtn" id="exportBtn">Export backup</button><button class="softbtn" id="resetBtn">Reset completion</button></div>
+  <div class="toolbar-actions"><button class="softbtn mobile-toggle" id="mobileMenu">☰ Actions</button><button class="softbtn expand" id="expandAllBtn">Expand all</button><button class="softbtn collapse" id="collapseAllBtn">Collapse all</button><button class="softbtn report" id="reportBtn">↗ Report</button><button class="softbtn" id="exportBtn">Export backup</button><button class="softbtn" id="resetBtn">Reset completion</button></div>
  </div>
  <div id="cards"></div>
  <div style="text-align:center;color:#9aa7b5;font-size:10px;padding:12px 0">Local-first storage · Your changes are saved automatically in this browser</div>
@@ -141,13 +153,13 @@ function render(){
    const jump=document.createElement("button");jump.type="button";jump.textContent=(index+1)+". "+item.title;jump.addEventListener("click",()=>{document.getElementById("card-"+index).scrollIntoView({behavior:"smooth",block:"start"});document.querySelectorAll(".side-item").forEach(n=>n.classList.remove("active"));line.classList.add("active");if(innerWidth<=760)document.body.classList.remove("mobile-open")});
    line.append(cb,jump);if(item.done)line.classList.add("done");det.append(line);
   });nav.append(det);
-  const heading=document.createElement("div");heading.className="category";heading.innerHTML="<h2>"+escapeHtml(group)+"</h2><small>5 activities</small>";cards.append(heading);
+  const heading=document.createElement("div");heading.className="category cat-"+gi;heading.innerHTML="<h2>"+escapeHtml(group)+"</h2><small>5 activities</small>";cards.append(heading);
   data.forEach((item,index)=>{if(item.group!==group)return;cards.append(buildCard(item,index))});
  });
  updateStats();
 }
 function buildCard(item,index){
- const card=document.createElement("section");card.className="card"+(item.done?" completed":"");card.id="card-"+index;
+ const card=document.createElement("section");card.className="card cat-"+Math.floor(index/5)+(item.done?" completed":"");card.id="card-"+index;
  const head=document.createElement("div");head.className="card-head";
  const parent=document.createElement("input");parent.type="checkbox";parent.className="parent-check";parent.id="parent-"+index;parent.checked=item.done;parent.setAttribute("aria-label","Mark activity complete");
  parent.addEventListener("change",()=>{item.done=parent.checked;save();card.classList.toggle("completed",item.done);const side=nav.querySelector('.side-item[data-index="'+index+'"]');if(side){side.querySelector("input").checked=item.done;side.classList.toggle("done",item.done)}state.textContent=item.done?"Completed":"In progress"});
@@ -188,6 +200,26 @@ document.getElementById("collapseBtn").addEventListener("click",()=>{ui.collapse
 document.getElementById("pinBtn").addEventListener("click",()=>{ui.pinned=!ui.pinned;if(ui.pinned)ui.collapsed=false;saveUi()});
 document.getElementById("mobileMenu").addEventListener("click",()=>document.body.classList.add("mobile-open"));
 document.addEventListener("click",e=>{if(innerWidth<=760&&document.body.classList.contains("mobile-open")&&!e.target.closest(".sidebar")&&!e.target.closest("#mobileMenu"))document.body.classList.remove("mobile-open")});
+function setAllGroups(open){document.querySelectorAll("#navGroups details.side-group").forEach(d=>d.open=open)}
+document.getElementById("expandAllBtn").addEventListener("click",()=>setAllGroups(true));
+document.getElementById("collapseAllBtn").addEventListener("click",()=>setAllGroups(false));
+function makeReport(){
+ const now=new Date();
+ const date=now.toLocaleDateString(undefined,{year:"numeric",month:"long",day:"numeric"});
+ const total=data.filter(x=>x.done).length;
+ const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+ const groups=[...new Set(data.map(x=>x.group))];
+ const sections=groups.map((group,gi)=>{
+  const rows=data.filter(x=>x.group===group).map((x)=>{
+   const subs=x.subtasks.length?'<ul class="subs">'+x.subtasks.map(s=>'<li><span class="box">'+(s.done?'✓':'')+'</span>'+esc(s.text||"Untitled subtask")+'</li>').join("")+'</ul>':'<p class="muted">No subtasks recorded.</p>';
+   return '<article class="action"><div class="row"><span class="check">'+(x.done?'✓':'')+'</span><div><h3>'+esc(x.title)+'</h3><p class="guidance">'+esc(x.guidance)+'</p></div><span class="status">'+(x.done?'Completed':'In progress')+'</span></div><div class="work"><b>My actual action / work</b><p>'+((x.actionText||"").trim()?esc(x.actionText).replace(/\n/g,"<br>"):'<span class="muted">Not entered</span>')+'</p></div><div class="subtasks"><b>Subtasks ('+x.subtasks.filter(s=>s.done).length+'/'+x.subtasks.length+')</b>'+subs+'</div></article>';
+  }).join("");
+  return '<section><h2>'+esc(group)+'</h2>'+rows+'</section>';
+ }).join("");
+ const report='<!doctype html><html><head><meta charset="utf-8"><title>Ambition Action Report</title><style>*{box-sizing:border-box}body{font:13px/1.5 Arial,sans-serif;color:#293b50;margin:34px auto;max-width:900px;padding:0 24px}header{border-bottom:2px solid #dce6ef;padding:0 0 16px;margin-bottom:20px}h1{font-size:25px;margin:0 0 5px}header p,.muted{color:#78899a}.meta{display:flex;gap:20px;color:#60758b;font-size:12px}h2{font-size:15px;padding:8px 11px;background:#eaf1fa;border-radius:6px;margin:20px 0 9px}section:nth-of-type(2) h2{background:#eaf4ee}section:nth-of-type(3) h2{background:#f1edf8}section:nth-of-type(4) h2{background:#fbf1e8}.action{border:1px solid #e0e7ee;border-radius:8px;padding:12px 14px;margin:8px 0;break-inside:avoid}.row{display:flex;gap:10px;align-items:flex-start}.check,.box{width:15px;height:15px;border:1px solid #9fb5c9;border-radius:3px;display:inline-flex;align-items:center;justify-content:center;color:#4f9872;font-size:11px;flex:none;margin-top:2px}.row h3{font-size:13px;margin:0}.guidance{font-size:11px;color:#6f8091;margin:3px 0 0}.status{margin-left:auto;font-size:10px;color:#64836f;white-space:nowrap}.work,.subtasks{margin:10px 0 0 25px;font-size:11px}.work p{margin:3px 0;color:#52677d}.subs{list-style:none;padding:0;margin:5px 0}.subs li{display:flex;gap:7px;margin:4px 0}.box{width:12px;height:12px;font-size:9px}.footer{border-top:1px solid #e2e8ef;margin-top:25px;padding-top:10px;color:#8796a5;font-size:10px}@media print{body{margin:0 auto;padding:0 10px}h2,.action{print-color-adjust:exact;-webkit-print-color-adjust:exact}}</style></head><body><header><h1>Ambition Action Report</h1><p>Personal performance · Action and progress summary</p><div class="meta"><span>Prepared: '+date+'</span><span>Activities completed: '+total+' / '+data.length+'</span><span>Completion: '+Math.round(total/data.length*100)+'%</span></div></header>'+sections+'<div class="footer">Generated from the Ambition Action Tracker · Private working document</div><script>window.onload=()=>window.print()<\/script></body></html>';
+ const win=window.open("","_blank");if(!win){alert("Please allow pop-ups to open the report.");return}win.document.open();win.document.write(report);win.document.close();
+}
+document.getElementById("reportBtn").addEventListener("click",makeReport);
 document.getElementById("resetBtn").addEventListener("click",()=>{if(!confirm("Reset the completion checkboxes for all activities and subtasks? Your action text and subtask descriptions will be kept."))return;data.forEach(x=>{x.done=false;x.subtasks.forEach(s=>s.done=false)});save();render()});
 document.getElementById("exportBtn").addEventListener("click",()=>{const blob=new Blob([JSON.stringify({app:"Ambition Action Tracker",version:2,exportedAt:new Date().toISOString(),data},null,2)],{type:"application/json"});const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="ambitionaction-backup.json";a.click();URL.revokeObjectURL(a.href)});
 async function checkNeon(){
