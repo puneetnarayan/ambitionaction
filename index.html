@@ -175,7 +175,8 @@ function saveNow(keepalive=false){
  }).catch(error=>{pendingChanges=true;setDbStatus(false,"Save failed · local copy retained");return false;});
  return saveQueue;
 }
-function scheduleNeonSave(){clearTimeout(saveTimer);saveTimer=setTimeout(()=>saveNow(),650)}
+const SAVE_DEBOUNCE_MS=250;
+function scheduleNeonSave(){clearTimeout(saveTimer);saveTimer=setTimeout(()=>saveNow(),SAVE_DEBOUNCE_MS)}
 window.addEventListener("pagehide",()=>{if(pendingChanges&&neonReady)saveNow(true)});
 window.addEventListener("beforeunload",e=>{if(pendingChanges&&neonReady){saveNow(true);e.preventDefault();e.returnValue="Your latest changes are still being saved. Leave this page?";return e.returnValue}});
 async function loadNeonData(){const r=await fetch("/api/activities",{cache:"no-store"});if(!r.ok)throw new Error("Unable to load Neon activities");const body=await r.json();if(!Array.isArray(body.activities)||body.activities.length!==20)throw new Error("Neon activity list is incomplete");return body.activities}
