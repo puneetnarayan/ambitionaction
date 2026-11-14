@@ -104,7 +104,7 @@ textarea:focus,input.sub-input:focus{border-color:#a9c2dc;box-shadow:0 0 0 2px #
   <div class="toolbar-actions"><button class="softbtn mobile-toggle" id="mobileMenu">☰ Actions</button><button class="softbtn expand" id="expandAllBtn">Expand all</button><button class="softbtn collapse" id="collapseAllBtn">Collapse all</button><button class="softbtn report" id="reportBtn">↗ Report</button><button class="softbtn" id="exportBtn">Export backup</button><button class="softbtn" id="resetBtn">Reset completion</button></div>
  </div>
  <div id="cards"></div>
- <div style="text-align:center;color:#9aa7b5;font-size:10px;padding:12px 0">Local-first storage · Your changes are saved automatically in this browser</div>
+ <div style="text-align:center;color:#9aa7b5;font-size:10px;padding:12px 0">Neon database · Changes sync automatically; a local safety copy is retained in this browser</div>
 </div>
 <script>
 const initialGroups=[
@@ -133,13 +133,18 @@ const initialGroups=[
 ["Build a stakeholder feedback record","Request brief feedback from project, operations, maintenance or other internal stakeholders after meaningful deliveries. Capture specific outcomes."],
 ["Prepare an appraisal evidence summary","Before appraisal, compile delivered targets, quantified benefits, leadership examples, feedback, additional responsibilities and next-level contributions. Share it with your boss in advance."]]}
 ];
-const STORAGE_KEY="ambitionaction-data-v2",OLD_KEY="ambitionaction-v1",UI_KEY="ambitionaction-ui-v2";
-let data=[],ui={pinned:true,collapsed:false};
+const STORAGE_KEY="ambitionaction-data-v2",OLD_KEY="ambitionaction-v1",UI_KEY="ambitionaction-ui-v2",NEON_MIGRATED_KEY="ambitionaction-neon-migrated-v1";
+let data=[],ui={pinned:true,collapsed:false},hadLocalSnapshot=false,neonReady=false,saveTimer=null,saveQueue=Promise.resolve();
 function freshData(){return initialGroups.flatMap((g,gi)=>g.items.map((it,i)=>({id:"a"+(gi*5+i+1),group:g.title,title:it[0],guidance:it[1],done:false,actionText:"",subtasks:[]})))}
-try{const saved=JSON.parse(localStorage.getItem(STORAGE_KEY)||"null");if(Array.isArray(saved)&&saved.length===20)data=saved;else{data=freshData();const old=JSON.parse(localStorage.getItem(OLD_KEY)||"{}");data.forEach((x,i)=>x.done=!!old["task-"+i]);}}catch(e){data=freshData()}
+try{const saved=JSON.parse(localStorage.getItem(STORAGE_KEY)||"null");if(Array.isArray(saved)&&saved.length===20){data=saved;hadLocalSnapshot=true;}else{data=freshData();const old=JSON.parse(localStorage.getItem(OLD_KEY)||"{}");data.forEach((x,i)=>x.done=!!old["task-"+i]);}}catch(e){data=freshData()}
 try{ui={...ui,...JSON.parse(localStorage.getItem(UI_KEY)||"{}")}}catch(e){}
 const cards=document.getElementById("cards"),nav=document.getElementById("navGroups");
-function save(){localStorage.setItem(STORAGE_KEY,JSON.stringify(data));updateStats()}
+function save(){localStorage.setItem(STORAGE_KEY,JSON.stringify(data));updateStats();if(neonReady)scheduleNeonSave()}
+function setDbStatus(ok,message,size){const status=document.getElementById("dbStatus"),dbSize=document.getElementById("dbSize");dbSize.textContent=size|| (ok?"Available":"Unavailable");status.innerHTML=ok?'<i class="dot ok"></i><span style="color:#4f8b6a">'+(message||"Neon connected")+'</span>':'<i class="dot"></i><span>'+(message||"Neon connection failed")+'</span>'}
+function scheduleNeonSave(){clearTimeout(saveTimer);saveTimer=setTimeout(()=>{const snapshot=JSON.parse(JSON.stringify(data));saveQueue=saveQueue.then(()=>fetch("/api/activities",{method:"PUT",headers:{"Content-Type":"application/json"},body:JSON.stringify({activities:snapshot})})).then(async r=>{if(!r.ok)throw new Error("Save failed");setDbStatus(true,"Neon connected");}).catch(()=>setDbStatus(false,"Neon connected · save failed"));},650)}
+async function loadNeonData(){const r=await fetch("/api/activities",{cache:"no-store"});if(!r.ok)throw new Error("Unable to load Neon activities");const body=await r.json();if(!Array.isArray(body.activities)||body.activities.length!==20)throw new Error("Neon activity list is incomplete");return body.activities}
+function mergeInitialData(serverData,localData){return serverData.map(server=>{const local=localData.find(x=>x.id===server.id);if(!local)return server;const mergedSubs=[...(server.subtasks||[])];const seen=new Set(mergedSubs.map(s=>(s.text||"").trim().toLowerCase()).filter(Boolean));for(const st of (local.subtasks||[])){const key=(st.text||"").trim().toLowerCase();if(key&&!seen.has(key)){mergedSubs.push({...st});seen.add(key)}}return {...server,actionText:server.actionText&&server.actionText.trim()?server.actionText:(local.actionText||""),done:!!(server.done||local.done),subtasks:mergedSubs}})}
+async function initializeNeon(){try{const serverData=await loadNeonData();const migrated=localStorage.getItem(NEON_MIGRATED_KEY)==="1";if(!migrated){if(hadLocalSnapshot){data=mergeInitialData(serverData,data);const put=await fetch("/api/activities",{method:"PUT",headers:{"Content-Type":"application/json"},body:JSON.stringify({activities:data})});if(!put.ok)throw new Error("Initial local data migration failed");}else data=serverData;localStorage.setItem(NEON_MIGRATED_KEY,"1");}else data=serverData;localStorage.setItem(STORAGE_KEY,JSON.stringify(data));neonReady=true;render();const st=await fetch("/api/db-status",{cache:"no-store"});const info=st.ok?await st.json():{};setDbStatus(!!info.connected,info.connected?"Neon connected":"Neon connection unavailable",info.size_pretty||"Available");}catch(e){neonReady=false;render();setDbStatus(false,"Neon unavailable · local copy retained","Unavailable");}}
 function escapeHtml(s){return String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
 function render(){
  cards.innerHTML="";nav.innerHTML="";
@@ -229,5 +234,5 @@ async function checkNeon(){
   else{if(d.database)name.textContent=d.database;size.textContent=d.configured?"Unavailable":"Not configured";status.innerHTML='<i class="dot"></i><span>Neon '+(d.configured?"connection failed":"not connected")+'</span>'}
  }catch(e){size.textContent="Not configured";status.innerHTML='<i class="dot"></i><span>Neon not connected</span>'}
 }
-render();checkNeon();
+render();checkNeon();initializeNeon();
 </script></body></html>
