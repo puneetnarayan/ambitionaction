@@ -48,11 +48,11 @@ h1{font-size:24px;line-height:1.15;margin:3px 0;color:#2c435b}header p{margin:4p
 .completed .state{background:#e8f4ed;color:#548369}
 .entry{margin:10px 0 0 26px}
 .entry label,.subtasks-label{display:block;font-size:10px;font-weight:800;color:#73869a;margin-bottom:4px}
-textarea{width:100%;min-height:45px;resize:vertical;border:1px solid #e0e8f0;border-radius:7px;background:#fbfcfe;padding:7px 9px;font:11px/1.4 inherit;color:var(--ink);outline:none}
+textarea{width:100%;min-height:45px;resize:vertical;border:1px solid #e0e8f0;border-radius:7px;background:#fbfcfe;padding:7px 9px;font:inherit;font-size:11px;line-height:1.4;color:var(--ink);outline:none}
 textarea:focus,input.sub-input:focus{border-color:#a9c2dc;box-shadow:0 0 0 2px #eaf1f8}
 .subtasks{margin:9px 0 0 26px}.subtask{display:flex;align-items:flex-start;gap:7px;padding:4px 0;border-bottom:1px solid #f0f3f6}
 .subtask:last-child{border-bottom:0}.subtask input[type=checkbox]{width:14px;height:14px;margin:2px 0 0;accent-color:#78a58e;flex:none}
-.subtask input[type=text]{flex:1;min-width:0;border:1px solid transparent;border-radius:5px;padding:3px 5px;background:transparent;color:#536a80;font:11px/1.35 inherit}
+.subtask input[type=text]{flex:1;min-width:0;border:1px solid transparent;border-radius:5px;padding:3px 5px;background:transparent;color:#536a80;font:inherit;font-size:11px;line-height:1.35}
 .subtask input[type=text]:hover{background:#f7f9fb;border-color:#edf1f5}
 .subtask.done input[type=text]{text-decoration:line-through;color:#9aa7b3}
 .remove-sub{border:0;background:transparent;color:#b0bbc5;cursor:pointer;font-size:14px;padding:0 4px}
@@ -137,7 +137,7 @@ function render(){
   const sum=document.createElement("summary");sum.textContent=group;const count=document.createElement("span");count.id="nav-count-"+gi;count.style.cssText="font-size:9px;color:#94a3b3;font-weight:600";sum.append(count);det.append(sum);
   data.forEach((item,index)=>{if(item.group!==group)return;
    const line=document.createElement("div");line.className="side-item";line.dataset.index=index;
-   const cb=document.createElement("input");cb.type="checkbox";cb.checked=item.done;cb.title="Mark activity complete";cb.addEventListener("change",()=>{item.done=cb.checked;save();line.classList.toggle("done",item.done);document.getElementById("card-"+index).classList.toggle("completed",item.done);document.getElementById("parent-"+index).checked=item.done;});
+   const cb=document.createElement("input");cb.type="checkbox";cb.checked=item.done;cb.title="Mark activity complete";cb.addEventListener("change",()=>{item.done=cb.checked;save();line.classList.toggle("done",item.done);document.getElementById("card-"+index).classList.toggle("completed",item.done);document.getElementById("parent-"+index).checked=item.done;const st=document.querySelector("#card-"+index+" .state");if(st)st.textContent=item.done?"Completed":"In progress";});
    const jump=document.createElement("button");jump.type="button";jump.textContent=(index+1)+". "+item.title;jump.addEventListener("click",()=>{document.getElementById("card-"+index).scrollIntoView({behavior:"smooth",block:"start"});document.querySelectorAll(".side-item").forEach(n=>n.classList.remove("active"));line.classList.add("active");if(innerWidth<=760)document.body.classList.remove("mobile-open")});
    line.append(cb,jump);if(item.done)line.classList.add("done");det.append(line);
   });nav.append(det);
