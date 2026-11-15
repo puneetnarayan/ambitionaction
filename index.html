@@ -264,7 +264,7 @@ document.addEventListener("click",e=>{if(innerWidth<=760&&document.body.classLis
 function setAllGroups(open){document.querySelectorAll("#navGroups details.side-group").forEach(d=>d.open=open)}
 document.getElementById("expandAllBtn").addEventListener("click",()=>setAllGroups(true));
 document.getElementById("collapseAllBtn").addEventListener("click",()=>setAllGroups(false));
-function makeReport(inline=false){
+async function makeReport(inline=false){
  const pdfTab=!inline?window.open("about:blank","_blank"):null;
  if(!inline&&!pdfTab){alert("Please allow pop-ups to open the PDF report.");return}
 
