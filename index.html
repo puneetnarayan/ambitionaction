@@ -85,7 +85,14 @@ button:active,.iconbtn:active,.softbtn:active{filter:brightness(.88);transform:t
 .parent-check:checked,.subtask input[type=checkbox]:checked,.side-item input:checked{accent-color:#477b62}
 .card:focus-within{border-color:#9db6d1;box-shadow:0 0 0 2px #dce8f4}
 .add-sub:active{background:#dce8f4;border-color:#a9bfd6}
-textarea:focus,input.sub-input:focus{background:#eaf1f8}
+/* Yellow selection marker for focused fields and selected activity blocks */
+:root{--selection-yellow:#fff2a8;--selection-yellow-border:#d8b84b}
+textarea:focus,input[type=text]:focus{background:var(--selection-yellow)!important;border-color:var(--selection-yellow-border)!important;box-shadow:0 0 0 2px #f8e7a0!important}
+.card.selected-block,.card:focus-within{background:#fff8d8!important;border-color:var(--selection-yellow-border)!important;box-shadow:0 0 0 2px #f5e6a4,0 2px 8px #8d762522!important}
+.card.selected-block .entry textarea:not(:focus),.card.selected-block .subtask input[type=text]:not(:focus){background:#fffdf0}
+.category.selected-block{background:#fff2a8!important;border-color:var(--selection-yellow-border)!important}
+.side-item.active{background:#fff2a8!important;box-shadow:inset 3px 0 0 #d1aa32!important}
+.side-group[open] summary{background:#fff2a8;color:#725b19}
 @media print{.sidebar,.toolbar,.mobile-toggle{display:none!important}header{margin:0;background:#eaf1f8!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}.main{margin:0;padding:12px}.card,.category{break-inside:avoid;-webkit-print-color-adjust:exact;print-color-adjust:exact}}
 @media(max-width:760px){
  header{margin-left:0;padding:13px 15px}.main{margin-left:0;padding:10px}.sidebar{width:min(280px,85vw);transform:translateX(-105%);box-shadow:8px 0 25px #23394d22;transition:transform .2s}.mobile-open .sidebar{transform:translateX(0)}
@@ -213,6 +220,8 @@ function render(){
 }
 function buildCard(item,index){
  const card=document.createElement("section");card.className="card cat-"+Math.floor(index/5)+(item.done?" completed":"");card.id="card-"+index;
+ card.addEventListener("click",e=>{if(e.target===card||e.target===head||e.target===main||e.target===title||e.target===desc){document.querySelectorAll(".card.selected-block,.category.selected-block").forEach(el=>el.classList.remove("selected-block"));card.classList.add("selected-block")}});
+
  const head=document.createElement("div");head.className="card-head";
  const parent=document.createElement("input");parent.type="checkbox";parent.className="parent-check";parent.id="parent-"+index;parent.checked=item.done;parent.setAttribute("aria-label","Mark activity complete");
  parent.addEventListener("change",()=>{item.done=parent.checked;save();card.classList.toggle("completed",item.done);const side=nav.querySelector('.side-item[data-index="'+index+'"]');if(side){side.querySelector("input").checked=item.done;side.classList.toggle("done",item.done)}state.textContent=item.done?"Completed":"In progress"});
